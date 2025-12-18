@@ -8,7 +8,8 @@ html, body {
   height: 100%;
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
-  background: #f5f5f0;
+  background: #F8F8F8;
+  transition: background-color 0.5s linear; /* smooth fade */
 }
 
 .container {
@@ -38,12 +39,12 @@ html, body {
 .title {
   margin: 0;
   font-size: 2rem;
-  color: #444;
+  color: #000100;
 }
 
 /* Question box */
 .question-box {
-  background: #eef4ff;
+  background: #B4D2E7;
   padding: 16px;
   border-left: 5px solid #3b6fb6;
   border-radius: 4px;
@@ -52,9 +53,9 @@ html, body {
 
 /* Feedback box (Correct / Incorrect) */
 .feedback-box {
-  background: #f9f9f9;
+  background: #94C5CC;
   padding: 12px;
-  border-left: 5px solid #888;
+  border-left: 5px solid #3b6fb6;
   border-radius: 4px;
   min-height: 40px;
   font-size: 1.1rem;
@@ -65,10 +66,21 @@ html, body {
 .score-box {
   font-size: 1.2rem;
   padding: 10px;
-  background: #fafafa;
+  background: #A1A6B4;
   border-radius: 4px;
-  border-left: 5px solid #555;
+  border-left: 5px solid #3b6fb6;
 }
+
+.timer-box {
+  font-size: 1.1rem;
+  padding: 8px 10px;
+  background: #000100;
+  border-radius: 4px;
+  border-left: 5px solid #3b6fb6;
+  margin-top: -8px; 
+  color: #F8F8F8;
+}
+
 
 /* Image */
 .location-image-container {
@@ -78,8 +90,8 @@ html, body {
 }
 
 .location-image {
-  width: 400px;            
-  height: 400px;           
+  width: 350px;            
+  height: 350px;           
   object-fit: cover;       
   border-radius: 4px;
   display: block;
@@ -90,7 +102,6 @@ html, body {
 
 /* Next Question button */
 .next-btn {
-  /* remove margin-top: auto; */
   padding: 12px;
   font-size: 1.1rem;
   border: none;
@@ -104,7 +115,6 @@ html, body {
   background: #345f9c;
 }
 
-/* Reset button (if you have one styled already, keep that too) */
 .reset-btn {
   padding: 12px;
   font-size: 1.1rem;
@@ -127,10 +137,6 @@ html, body {
   flex-direction: column;
   gap: 16px;                     /* space between Next and Reset */
 }
-
-
-
-
 
 
 

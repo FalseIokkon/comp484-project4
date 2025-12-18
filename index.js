@@ -2,16 +2,22 @@ import { LOCATIONS } from "./locations.js";
 
 console.log("Loaded locations: ", LOCATIONS);
 
-var currentIndex = 0; // index to keep track of which question we are on
-var score = 0;        // current score
+var currentIndex = 0;                // index to keep track of which question we are on
+var score = 0;                       // current score
 var allowNextQuestionButton = false; // button to allow next question to proceed
-var allowGuess = true; // allows only ONE guess per check
+var allowGuess = true;               // allows only ONE guess per check
+var timerStarted = false;            // start timer only after first click
+var timerInterval = null;
+var elapsedSeconds = 0;
 
-const answerRectangles = []; // stores all drawn rectangles
-const guessMarkers = [];     // store all guess markers
-const guessCircles = [];     // store all circle polygons
 
+const answerRectangles = [];         // stores all drawn rectangles
+const guessMarkers = [];             // store all guess markers
+const guessCircles = [];             // store all circle polygons
 
+const MAX_TIME_FOR_FULL_RED = 20;    // change for time til MAX RED
+
+// randomizes LOCATIONS at start
 function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1)); 
@@ -126,6 +132,57 @@ function drawAnswerRectangle(innerMap, answer) {
     answerRectangles.push(rect); // append to answerRectangles so we can clear later if needed
 }
 
+function updateBackgroundByTime() {
+    const ratio = Math.min(elapsedSeconds / MAX_TIME_FOR_FULL_RED, 1); // clamp 0–1
+
+    // Start color: #F8F8F8 (248,248,248)
+    // End color:   #FF0000 (255,0,0)
+    const start = { r: 248, g: 248, b: 248 };
+    const end   = { r: 255, g:   0, b:   0 };
+
+    const r = Math.round(start.r + (end.r - start.r) * ratio);
+    const g = Math.round(start.g + (end.g - start.g) * ratio);
+    const b = Math.round(start.b + (end.b - start.b) * ratio);
+
+    document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+}
+
+function formatTime(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+}
+
+function updateTimerDisplay() {
+    const timerEl = document.getElementById("timer");
+    if (timerEl) {
+        timerEl.textContent = formatTime(elapsedSeconds);
+    }
+}
+
+function startTimer() {
+    // clear any existing timer
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+
+    elapsedSeconds = 0;
+    updateTimerDisplay();
+
+    timerInterval = setInterval(() => {
+        elapsedSeconds++;
+        updateTimerDisplay();
+        updateBackgroundByTime();
+    }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
 
 // NEXT BUTTON functionality
 const nextBtn = document.getElementById("nextBtn");
@@ -153,6 +210,8 @@ nextBtn.addEventListener("click", () => {   // calls nextQuestion()
         document.getElementById("feedbackBox").textContent = "Thanks for playing!"; // needs to have line 82 changed to work
         document.getElementById("score").textContent = score + "/5";
         document.getElementById("question-number").textContent = "Finished!";
+
+        stopTimer();
     }
 
     // clear previous marker
@@ -210,8 +269,11 @@ resetBtn.addEventListener("click", () => {
 
     // Show first question again
     showQuestion();
-
+    timerStarted = false;
+    stopTimer();
+    document.body.style.backgroundColor = "#F8F8F8"; // back to start color
 });
+
 
 
 async function initMap() {
@@ -247,6 +309,7 @@ async function initMap() {
 
     showQuestion(); // runs only once to show the first question
 
+    
     // code to listen for a double click
     innerMap.addListener("dblclick", (e) => {
         if (!allowGuess){
@@ -255,6 +318,11 @@ async function initMap() {
         } else {
             allowGuess = false;
             console.log("Guess Registered, calculating....")
+        }
+
+        if (!timerStarted) {
+            timerStarted = true;
+            startTimer();
         }
 
         const clicked = e.latLng.toJSON(); // converts to {lat, lng}
