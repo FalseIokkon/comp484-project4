@@ -1,26 +1,77 @@
+<!DOCTYPE html>
+<!--
+ @license
+ Copyright 2025 Google LLC. All Rights Reserved.
+ SPDX-License-Identifier: Apache-2.0
+-->
 <html>
   <head>
-    <title>Add a Map using HTML</title>
+    <title>Map Quiz</title>
 
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <script type="module" src="./index.js"></script>
+
+    <!-- Google Maps loader -->
+    <!-- prettier-ignore -->
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "AIzaSyAOzVAn_NiB9jtGoT0TaFVTyz9cNd2X_To", v: "weekly"});</script>
+
+
   </head>
   <body>
-    <gmp-map
-      center="38.7946,-106.5348"
-      zoom="4"
-      map-id="DEMO_MAP_ID"
-      style="height: 400px"
-    >
-    </gmp-map>
 
-    <!--
-      The `defer` attribute causes the script to execute after the full HTML
-      document has been parsed. -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB99xDQmsqg2-eXp-dWKqBU_mm0LwKW-OE&libraries=maps"
-      defer
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <div class="page-wrapper">
+        <!-- Left quiz panel -->
+        <section class="quiz-panel">
+
+            <h1 class="title">CSUN Map Quiz</h1>
+
+            <!-- Question -->
+            <div id="questionBox" class="question-box">
+                Click where you think <span id="locationName">PLACEHOLDER</span> is.
+            </div>
+
+            <!-- Message box, empty at start-->
+            <div id="feedbackBox" class="feedback-box">
+            </div>
+
+            <!-- Score -->
+            <div id="scoreBox" class="score-box">
+                Score: <span id="score">0</span> &nbsp&nbsp&nbspQuestion: <span id="question-number">1</span>
+            </div>
+
+            <!-- Location image section (new) -->
+            <div id="locationImageContainer" class="location-image-container">
+                <img id="locationImage" class="location-image" src="" alt="" style="display:none;">
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <!-- Next Question Button -->
+                <button id="nextBtn" class="next-btn">Next Question</button>
+
+                <!-- Reset Button -->
+                <button id="resetBtn" class="reset-btn">Reset Quiz</button>
+            </div>
+
+        </section>
+
+
+
+        <!-- Right map panel -->
+        <section class="map-panel">
+            <gmp-map
+            center="34.240168234957814, -118.52899847404126"
+            zoom="16"
+            map-id="DEMO_MAP_ID">
+            </gmp-map>
+        </section>
+    </div>
+
+
+
+
   </body>
 </html>
-  
