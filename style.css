@@ -137,17 +137,15 @@ html, body {
 /* Right map column */
 .map-panel {
   flex: 1.2;
-  /* Make sure it fills the vertical space */
   height: 100%;
-  /* You can keep these if you like, but they're optional now */
   display: flex;
 }
 
 .map-panel gmp-map {
   width: 100%;
-  height: 100%;      /* now based on a real height */
+  height: 100%;      
   max-width: 700px;
-  max-height: 600px; /* <-- added px */
+  max-height: 600px; 
   box-sizing: border-box;
-  margin: auto;      /* centers the map inside the flex parent */
+  margin: auto;      
 }

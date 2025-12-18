@@ -293,7 +293,7 @@ async function initMap() {
             const circle = new google.maps.Circle({
                 map: innerMap,
                 center: clicked,
-                radius: 20,
+                radius: 40,
                 strokeColor: '#FF0000',
                 strokeOpacity: 0.25,
                 strokeWeight: 2,
