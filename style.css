@@ -90,8 +90,8 @@ html, body {
 }
 
 .location-image {
-  width: 350px;            
-  height: 350px;           
+  width: 200;            
+  height: 150px;           
   object-fit: cover;       
   border-radius: 4px;
   display: block;
