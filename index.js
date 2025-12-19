@@ -1,3 +1,13 @@
+/*
+
+Order functions are called:
+1. Double Click detected by initMap()'s listener
+2. Takes coordinates that are clicked and passes to checkAnswer() to determine if answer is right or not
+3. drawRectangle() around the location
+4. Proceeds to next question
+
+*/
+
 import { LOCATIONS } from "./locations.js";
 
 console.log("Loaded locations: ", LOCATIONS);
@@ -111,6 +121,8 @@ function cornersToBounds(corners) {
     };
 }
 
+
+// function draws a rectangle based on coordinates of LOCATIONS[currentIndex], takes answer to determine if green or red box should be drawn
 function drawAnswerRectangle(innerMap, answer) {
     const loc = LOCATIONS[currentIndex];
     const bounds = cornersToBounds(loc.corners);
@@ -129,9 +141,10 @@ function drawAnswerRectangle(innerMap, answer) {
         clickable: false,
     });
 
-    answerRectangles.push(rect); // append to answerRectangles so we can clear later if needed
+    answerRectangles.push(rect); // append to answerRectangles so they can be erased later on
 }
 
+// function used to continuously update the background color
 function updateBackgroundByTime() {
     const ratio = Math.min(elapsedSeconds / MAX_TIME_FOR_FULL_RED, 1); // clamp 0–1
 
@@ -147,6 +160,7 @@ function updateBackgroundByTime() {
     document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
 }
 
+// helper function to format to (minutes:seconds)
 function formatTime(totalSeconds) {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
